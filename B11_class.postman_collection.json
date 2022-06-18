@@ -1,0 +1,214 @@
+{
+	"info": {
+		"_postman_id": "6fb42a94-c489-4004-b5bc-2ed1aa138015",
+		"name": "B11_class",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21510196"
+	},
+	"item": [
+		{
+			"name": "create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json()\r",
+							"pm.environment.set(\"id\", jsonData.bookingid)\r",
+							"\r",
+							"pm.test(\"Successful\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"First name check\", function () {\r",
+							"    pm.expect(jsonData.booking.firstname).to.eql(\"Raiyan\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"firstname\": \"Raiyan\",\r\n\t\"lastname\": \"Tanzim\",\r\n\t\"totalprice\": 111,\r\n\t\"depositpaid\": true,\r\n\t\"bookingdates\": {\r\n    \t\"checkin\": \"2013-02-23\",\r\n    \t\"checkout\": \"2014-10-23\"\r\n\t},\r\n\t\"additionalneeds\": \"Breakfast\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/booking/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"booking",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.test(\"First name check\", function () {\r",
+							"    pm.expect(jsonData.firstname).to.eql(\"Raiyan\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Price check\", function () {\r",
+							"    pm.expect(jsonData.totalprice).to.eql(135);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/booking/{{id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"booking",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json()\r",
+							"pm.environment.set(\"access\", jsonData.token)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"username\": \"admin\",\r\n\t\"password\": \"password123\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/auth",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.test(\"First name check\", function () {\r",
+							"    pm.expect(jsonData.firstname).to.eql(\"Raiyan\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Last name check\", function () {\r",
+							"    pm.expect(jsonData.lastname).to.eql(\"tanzim\");\r",
+							"});\r",
+							"\r",
+							"console.log(jsonData.firstname)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token={{access}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"firstname\": \"Raiyan\",\r\n\t\"lastname\": \"Tanzim\",\r\n\t\"totalprice\": 135,\r\n\t\"depositpaid\": true,\r\n\t\"bookingdates\": {\r\n    \t\"checkin\": \"2013-02-23\",\r\n    \t\"checkout\": \"2014-10-23\"\r\n\t},\r\n\t\"additionalneeds\": \"Dinner\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/booking/{{id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"booking",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token= {{access}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/booking/{{id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"booking",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
